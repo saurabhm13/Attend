@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/userManagementFragment"
+        android:title="Users"
+        android:icon="@drawable/ic_add_person"/>
+
+    <item android:id="@+id/classesFragment"
+        android:title="Classes"
+        android:icon="@drawable/ic_school"/>
+
+    <item android:id="@+id/attendanceFragment"
+        android:title="Attendance"
+        android:icon="@drawable/ic_attendance"/>
+</menu>

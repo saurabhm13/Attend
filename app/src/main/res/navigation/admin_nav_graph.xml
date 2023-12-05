@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/userManagementFragment">
+
+    <fragment
+        android:id="@+id/userManagementFragment"
+        android:name="com.example.attend.presentation.admin_home.user_management.UserManagementFragment"
+        android:label="fragment_user_management"
+        tools:layout="@layout/fragment_user_management" />
+    <fragment
+        android:id="@+id/attendanceFragment"
+        android:name="com.example.attend.presentation.attendance.AttendanceFragment"
+        android:label="fragment_attendance"
+        tools:layout="@layout/fragment_attendance" />
+    <fragment
+        android:id="@+id/classesFragment"
+        android:name="com.example.attend.presentation.add_edit_class.ClassesFragment"
+        android:label="fragment_classes"
+        tools:layout="@layout/fragment_classes" />
+</navigation>

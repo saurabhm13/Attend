@@ -13,6 +13,27 @@
         android:theme="@style/Theme.Attend"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.student_home.HomeStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.teacher_home.HomeTeacherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.add_edit_class.AddStudentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.add_edit_class.ClassDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.add_user.AddUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.add_edit_class.CreateClassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.admin_home.HomeAdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
