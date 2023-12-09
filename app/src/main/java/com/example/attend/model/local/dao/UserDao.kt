@@ -1,5 +1,6 @@
 package com.example.attend.model.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -11,8 +12,11 @@ interface UserDao {
     suspend fun insertUser(user: User)
 
     @Query("SELECT * FROM user WHERE user_id = :userId")
-    suspend fun getUserById(userId: Long): User?
+    fun getUserById(userId: Long): LiveData<User>
 
     @Query("SELECT * FROM user WHERE username = :username")
-    suspend fun getUserByUsername(username: String): User?
+    fun getUserByUsername(username: String): LiveData<User>
+
+    @Query("SELECT * FROM user WHERE user_type = :userType")
+    fun getUserByType(userType: String): LiveData<List<User>>
 }

@@ -28,7 +28,7 @@
             android:name=".presentation.add_user.AddUserActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.add_edit_class.CreateClassActivity"
+            android:name=".presentation.add_edit_class.AddEditClassActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.admin_home.HomeAdminActivity"

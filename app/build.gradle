@@ -34,6 +34,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs).configureEach {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
 }
 
 dependencies {
@@ -59,10 +64,15 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 
-    // Room
-    implementation "androidx.room:room-runtime:2.4.2"
-    kapt "androidx.room:room-compiler:2.4.2"
+//    // Room
+//    implementation "androidx.room:room-runtime:2.4.2"
+//    annotationProcessor "androidx.room:room-compiler:2.4.2"
+//
+//    // Kotlin Extensions and Coroutines support for Room
+//    implementation "androidx.room:room-ktx:2.4.2"
 
-    // Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:2.4.2"
+    // Android Room
+    implementation "androidx.room:room-runtime:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
 }

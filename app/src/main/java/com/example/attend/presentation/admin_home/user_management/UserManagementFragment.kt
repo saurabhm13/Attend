@@ -1,5 +1,6 @@
 package com.example.attend.presentation.admin_home.user_management
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.attend.R
 import com.example.attend.databinding.FragmentUserManagementBinding
 import com.example.attend.presentation.adapter.UserManagementVPAdapter
+import com.example.attend.presentation.add_user.AddUserActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
 class UserManagementFragment : Fragment() {
@@ -30,6 +32,11 @@ class UserManagementFragment : Fragment() {
                 1 -> tab.text = "Teachers"
             }
         }.attach()
+
+        binding.addUser.setOnClickListener {
+            val intoAddUser = Intent(activity, AddUserActivity::class.java)
+            startActivity(intoAddUser)
+        }
 
 
         return binding.root

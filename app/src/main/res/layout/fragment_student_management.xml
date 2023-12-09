@@ -10,7 +10,7 @@
         android:id="@+id/rv_student"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_student"
+        tools:listitem="@layout/item_user"
         app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.attend.model.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -11,5 +12,5 @@ interface ExcusedAbsenceDao {
     suspend fun insertExcusedAbsenceRequest(request: ExcusedAbsence)
 
     @Query("SELECT * FROM excuseAbsence WHERE student_id = :studentId")
-    suspend fun getExcusedAbsenceRequestsForStudent(studentId: Long): List<ExcusedAbsence>
+    fun getExcusedAbsenceRequestsForStudent(studentId: Long): LiveData<List<ExcusedAbsence>>
 }
