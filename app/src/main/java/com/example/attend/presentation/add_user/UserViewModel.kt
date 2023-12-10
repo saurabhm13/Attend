@@ -18,7 +18,7 @@ class UserViewModel(
     fun insertUser(user: User) {
         viewModelScope.launch {
             try {
-                userDao.insertUser(user)
+                userDao.upsertUser(user)
                 _userInsertStatus.value = true
             }catch (e: Exception) {
                 _userInsertStatus.value = false
@@ -34,5 +34,17 @@ class UserViewModel(
     fun getUserByUsername(username: String) = userDao.getUserByUsername(username)
 
     fun getUserByUserType(userType: String) = userDao.getUserByType(userType)
+
+    fun deleteUser(user: User) {
+        try {
+            viewModelScope.launch {
+                userDao.deleteUser(user)
+                _userInsertStatus.value = true
+            }
+        }catch (e: Exception) {
+            _userInsertStatus.value = false
+        }
+
+    }
 
 }

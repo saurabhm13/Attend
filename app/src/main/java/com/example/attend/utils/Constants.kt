@@ -5,6 +5,17 @@ class Constants {
     companion object {
         const val STUDENT = "Student"
         const val TEACHER = "Teacher"
+        const val FROM = "From"
+        const val TO = "To"
+        const val DATE = "Date"
+
+        const val USER_ID = "userId"
+        const val USERNAME = "username"
+        const val PASSWORD = "password"
+        const val USER_TYPE = "userType"
+
+        const val CLASS_ID = "classId"
+        const val CLASS_NAME = "className"
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.attend.presentation.admin_home.user_management
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.example.attend.databinding.FragmentStudentManagementBinding
 import com.example.attend.databinding.FragmentTeacherManagementBinding
 import com.example.attend.model.local.AppDatabase
 import com.example.attend.presentation.adapter.UserAdapter
+import com.example.attend.presentation.add_user.AddUserActivity
 import com.example.attend.presentation.add_user.UserViewModel
 import com.example.attend.presentation.add_user.UserViewModelFactory
 import com.example.attend.utils.Constants
@@ -42,7 +44,16 @@ class TeacherManagementFragment : Fragment() {
     }
 
     private fun prepareRecyclerView() {
-        val userAdapter = UserAdapter()
+        val userAdapter = UserAdapter(
+            onItemClick = {
+                val intoAddEditUser = Intent(activity, AddUserActivity::class.java)
+                intoAddEditUser.putExtra(Constants.USER_ID, it.user_id)
+                intoAddEditUser.putExtra(Constants.USERNAME, it.username)
+                intoAddEditUser.putExtra(Constants.PASSWORD, it.password)
+                intoAddEditUser.putExtra(Constants.USER_TYPE, it.user_type)
+                startActivity(intoAddEditUser)
+            }
+        )
 
         binding.rvTeacher.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

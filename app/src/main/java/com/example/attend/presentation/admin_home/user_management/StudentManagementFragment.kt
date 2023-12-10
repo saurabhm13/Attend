@@ -1,5 +1,6 @@
 package com.example.attend.presentation.admin_home.user_management
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,9 +12,14 @@ import com.example.attend.R
 import com.example.attend.databinding.FragmentStudentManagementBinding
 import com.example.attend.model.local.AppDatabase
 import com.example.attend.presentation.adapter.UserAdapter
+import com.example.attend.presentation.add_user.AddUserActivity
 import com.example.attend.presentation.add_user.UserViewModel
 import com.example.attend.presentation.add_user.UserViewModelFactory
+import com.example.attend.utils.Constants.Companion.PASSWORD
 import com.example.attend.utils.Constants.Companion.STUDENT
+import com.example.attend.utils.Constants.Companion.USERNAME
+import com.example.attend.utils.Constants.Companion.USER_ID
+import com.example.attend.utils.Constants.Companion.USER_TYPE
 
 class StudentManagementFragment : Fragment() {
 
@@ -40,7 +46,16 @@ class StudentManagementFragment : Fragment() {
     }
 
     private fun prepareRecyclerView() {
-        val userAdapter = UserAdapter()
+        val userAdapter = UserAdapter(
+            onItemClick = {
+                val intoAddEditUser = Intent(activity, AddUserActivity::class.java)
+                intoAddEditUser.putExtra(USER_ID, it.user_id)
+                intoAddEditUser.putExtra(USERNAME, it.username)
+                intoAddEditUser.putExtra(PASSWORD, it.password)
+                intoAddEditUser.putExtra(USER_TYPE, it.user_type)
+                startActivity(intoAddEditUser)
+            }
+        )
 
         binding.rvStudent.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

@@ -8,5 +8,8 @@ data class ClassEntity(
     @PrimaryKey(autoGenerate = true)
     val class_id: Long = 0,
     val class_name: String,
-    val schedule: String
+    val teacher: String,
+    val date: String,
+    val from: String,
+    val to: String
 )

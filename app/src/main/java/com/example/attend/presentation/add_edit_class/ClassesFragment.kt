@@ -1,60 +1,76 @@
 package com.example.attend.presentation.add_edit_class
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.attend.R
+import com.example.attend.databinding.FragmentClassesBinding
+import com.example.attend.model.local.AppDatabase
+import com.example.attend.presentation.adapter.ClassAdapter
+import com.example.attend.presentation.adapter.UserAdapter
+import com.example.attend.utils.Constants.Companion.CLASS_ID
+import com.example.attend.utils.Constants.Companion.CLASS_NAME
+import com.example.attend.utils.Constants.Companion.DATE
+import com.example.attend.utils.Constants.Companion.FROM
+import com.example.attend.utils.Constants.Companion.TEACHER
+import com.example.attend.utils.Constants.Companion.TO
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ClassesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ClassesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentClassesBinding
+    private lateinit var classViewModel: ClassViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_classes, container, false)
+        binding = FragmentClassesBinding.inflate(layoutInflater, container, false)
+
+        val classDao = AppDatabase.getInstance(requireContext()).classDao()
+
+        classViewModel = ViewModelProvider(
+            this,
+            ClassViewModelFactory(classDao)
+        )[ClassViewModel::class.java]
+
+        binding.addEditClass.setOnClickListener {
+            val intoAddEditClass = Intent(activity, AddEditClassActivity::class.java)
+            startActivity(intoAddEditClass)
+        }
+
+        prepareRecyclerView()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ClassesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ClassesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun prepareRecyclerView() {
+        val classAdapter = ClassAdapter(
+            onItemClick = {
+                val intoAddEditClass = Intent(activity, AddEditClassActivity::class.java)
+                intoAddEditClass.putExtra(CLASS_ID, it.class_id)
+                intoAddEditClass.putExtra(CLASS_NAME, it.class_name)
+                intoAddEditClass.putExtra(TEACHER, it.teacher)
+                intoAddEditClass.putExtra(DATE, it.date)
+                intoAddEditClass.putExtra(FROM, it.from)
+                intoAddEditClass.putExtra(TO, it.to)
+                startActivity(intoAddEditClass)
             }
+        )
+
+        binding.rvClasses.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            adapter = classAdapter
+        }
+
+        classViewModel.getAllClass().observe(viewLifecycleOwner) {
+            classAdapter.setClassList(it)
+        }
     }
 }
