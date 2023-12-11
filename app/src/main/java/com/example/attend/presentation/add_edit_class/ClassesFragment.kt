@@ -33,11 +33,14 @@ class ClassesFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentClassesBinding.inflate(layoutInflater, container, false)
 
+        val userDao = AppDatabase.getInstance(requireContext()).userDao()
         val classDao = AppDatabase.getInstance(requireContext()).classDao()
+        val enrollmentDao = AppDatabase.getInstance(requireContext()).enrollmentDao()
+        val attendanceDao = AppDatabase.getInstance(requireContext()).attendanceDao()
 
         classViewModel = ViewModelProvider(
             this,
-            ClassViewModelFactory(classDao)
+            ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao)
         )[ClassViewModel::class.java]
 
         binding.addEditClass.setOnClickListener {
@@ -53,6 +56,16 @@ class ClassesFragment : Fragment() {
     private fun prepareRecyclerView() {
         val classAdapter = ClassAdapter(
             onItemClick = {
+                val intoClassDetails = Intent(activity, ClassDetailsActivity::class.java)
+                intoClassDetails.putExtra(CLASS_ID, it.class_id)
+                intoClassDetails.putExtra(CLASS_NAME, it.class_name)
+                intoClassDetails.putExtra(TEACHER, it.teacher)
+                intoClassDetails.putExtra(DATE, it.date)
+                intoClassDetails.putExtra(FROM, it.from)
+                intoClassDetails.putExtra(TO, it.to)
+                startActivity(intoClassDetails)
+            },
+            onEditClick = {
                 val intoAddEditClass = Intent(activity, AddEditClassActivity::class.java)
                 intoAddEditClass.putExtra(CLASS_ID, it.class_id)
                 intoAddEditClass.putExtra(CLASS_NAME, it.class_name)

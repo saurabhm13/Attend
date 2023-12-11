@@ -10,7 +10,8 @@ import com.example.attend.model.data.ClassEntity
 import com.example.attend.model.data.User
 
 class ClassAdapter(
-    private val onItemClick: ((ClassEntity) -> Unit)
+    private val onItemClick: ((ClassEntity) -> Unit),
+    private val onEditClick: ((ClassEntity) -> Unit)
 ): RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
 
     private var classList = ArrayList<ClassEntity>()
@@ -41,6 +42,10 @@ class ClassAdapter(
 
         holder.binding.root.setOnClickListener {
             onItemClick.invoke(classList[position])
+        }
+
+        holder.binding.edit.setOnClickListener {
+            onEditClick.invoke(classList[position])
         }
     }
 }

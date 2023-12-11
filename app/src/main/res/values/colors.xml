@@ -3,5 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#8E8B8B</color>
-    <color name="red">#870202</color>
+
+    <color name="lightGreen">#A5ED88</color>
+    <color name="darkGreen">#2C8009</color>
+    <color name="lightBlue">#75A0E1</color>
+    <color name="darkBlue">#0C3B83</color>
+    <color name="lightRed">#EA7272</color>
+    <color name="darkRed">#870202</color>
 </resources>

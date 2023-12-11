@@ -23,4 +23,7 @@ interface UserDao {
 
     @Delete
     suspend fun deleteUser(user: User)
+
+    @Query("SELECT user.* FROM user INNER JOIN enrollment ON user.user_id = enrollment.student_id WHERE enrollment.class_id = :classId")
+    fun getStudentsInClass(classId: Long): LiveData<List<User>>
 }

@@ -16,6 +16,10 @@ class Constants {
 
         const val CLASS_ID = "classId"
         const val CLASS_NAME = "className"
+
+        const val PRESENT = "present"
+        const val ABSENT = "absent"
+        const val TARDY = "tardy"
     }
 
 }

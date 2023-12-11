@@ -45,11 +45,14 @@ class AddEditClassActivity : AppCompatActivity() {
         binding = ActivityAddEditClassBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val classDao = AppDatabase.getInstance(this).classDao()
+        val userDao = AppDatabase.getInstance(applicationContext).userDao()
+        val classDao = AppDatabase.getInstance(applicationContext).classDao()
+        val enrollmentDao = AppDatabase.getInstance(applicationContext).enrollmentDao()
+        val attendanceDao = AppDatabase.getInstance(applicationContext).attendanceDao()
 
         classViewModel = ViewModelProvider(
             this,
-            ClassViewModelFactory(classDao)
+            ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao)
         )[ClassViewModel::class.java]
 
         if (intent.getStringExtra(CLASS_NAME) != null) {
@@ -67,16 +70,16 @@ class AddEditClassActivity : AppCompatActivity() {
             if (className.isNotBlank() && teacher.isNotBlank() && date.isNotBlank() && from.isNotBlank() && to.isNotBlank()) {
                 val classEntry = ClassEntity(classId, className, teacher, date, from, to)
                 classViewModel.addEditClass(classEntry)
-            }else {
+            } else {
                 Toast.makeText(this, "Add all fields", Toast.LENGTH_SHORT).show()
             }
         }
 
-        classViewModel.classEditStatus.observe(this) {isSuccess ->
+        classViewModel.classEditStatus.observe(this) { isSuccess ->
             if (isSuccess) {
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
                 clearFields()
-            }else {
+            } else {
                 Toast.makeText(this, "Error Occurred", Toast.LENGTH_SHORT).show()
             }
         }
@@ -107,7 +110,7 @@ class AddEditClassActivity : AppCompatActivity() {
 
     private fun showDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(
-            this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+            this, { DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, monthOfYear, dayOfMonth)
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -134,7 +137,7 @@ class AddEditClassActivity : AppCompatActivity() {
 
                 if (setText == FROM) {
                     binding.from.editText?.setText(selectedTime)
-                }else {
+                } else {
                     binding.to.editText?.setText(selectedTime)
                 }
             },
