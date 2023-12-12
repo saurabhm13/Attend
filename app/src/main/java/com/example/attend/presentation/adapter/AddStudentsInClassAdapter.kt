@@ -45,8 +45,16 @@ class AddStudentsInClassAdapter(
         holder.binding.student.text = allStudentsList[position].username
         holder.binding.check.isChecked = enrolledStudentsList.contains(allStudentsList[position])
 
-        holder.binding.check.setOnCheckedChangeListener {  _, isChecked ->
-            onAddClick.invoke(allStudentsList[position], isChecked)
+        holder.binding.check.setOnClickListener {
+            val isCheck = holder.binding.check.isChecked
+            if (isCheck) {
+                onAddClick.invoke(allStudentsList[position], true)
+            }else {
+                onAddClick.invoke(allStudentsList[position], false)
+            }
+
         }
+
+
     }
 }

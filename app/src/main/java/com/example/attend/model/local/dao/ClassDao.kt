@@ -10,7 +10,7 @@ import com.example.attend.model.data.ClassEntity
 @Dao
 interface ClassDao {
     @Upsert
-    suspend fun upsertClass(classEntity: ClassEntity)
+    suspend fun upsertClass(classEntity: ClassEntity): Long
 
     @Query("SELECT * FROM class WHERE class_id = :classId")
     fun getClassById(classId: Long): LiveData<ClassEntity>

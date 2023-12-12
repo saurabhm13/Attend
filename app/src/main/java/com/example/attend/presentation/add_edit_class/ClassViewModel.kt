@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.attend.model.data.Attendance
+import com.example.attend.model.data.AttendanceReport
 import com.example.attend.model.data.ClassEntity
 import com.example.attend.model.data.Enrollment
 import com.example.attend.model.data.StudentWithEnrollmentStatus
 import com.example.attend.model.data.User
 import com.example.attend.model.local.dao.AttendanceDao
+import com.example.attend.model.local.dao.AttendanceReportDao
 import com.example.attend.model.local.dao.ClassDao
 import com.example.attend.model.local.dao.EnrollmentDao
 import com.example.attend.model.local.dao.UserDao
@@ -21,7 +23,8 @@ class ClassViewModel(
     private val classDao: ClassDao,
     private val userDao: UserDao,
     private val enrollmentDao: EnrollmentDao,
-    private val attendanceDao: AttendanceDao
+    private val attendanceDao: AttendanceDao,
+    private val attendanceReportDao: AttendanceReportDao
 ): ViewModel() {
 
     private var _classEditStatus = MutableLiveData<Boolean>()
@@ -30,10 +33,16 @@ class ClassViewModel(
     private val _studentsWithEnrollment = MutableLiveData<List<StudentWithEnrollmentStatus>>()
     val studentsWithEnrollment: LiveData<List<StudentWithEnrollmentStatus>> get() = _studentsWithEnrollment
 
-    fun addEditClass(classEntity: ClassEntity) {
+    fun addEditClass(classEntity: ClassEntity){
         try {
             viewModelScope.launch {
-                classDao.upsertClass(classEntity)
+                val classId = classDao.upsertClass(classEntity)
+                if (classEntity.class_id.toInt() == 0) {
+                    val attendanceReport = AttendanceReport(0, classId, classEntity.class_name, classEntity.teacher, 0, 0, 0)
+                    createAttendanceReport(attendanceReport)
+                }else {
+
+                }
             }
             _classEditStatus.value = true
         }catch (e: Exception) {
@@ -93,6 +102,42 @@ class ClassViewModel(
         try {
             viewModelScope.launch {
                 attendanceDao.removeAttendanceOfStudentFromClass(studentId, classId)
+            }
+        }catch (e: Exception) {
+
+        }
+    }
+
+    private fun createAttendanceReport(attendanceReport: AttendanceReport) {
+        try {
+            viewModelScope.launch {
+                attendanceReportDao.insertAttendanceReport(attendanceReport)
+            }
+        }catch (e: Exception) {
+
+        }
+    }
+
+    fun updateAttendanceReport(attendanceReport: AttendanceReport) {
+        try {
+            viewModelScope.launch {
+                attendanceReportDao.upsertAttendanceReport(attendanceReport)
+            }
+        }catch (e: Exception) {
+
+        }
+    }
+
+    fun getAllAttendanceReport() = attendanceReportDao.getAllAttendanceReport()
+
+    fun getAttendanceReportForClass(classId: Long) = attendanceReportDao.getAttendanceReportForClass(classId)
+
+    fun getAttendanceReportForTeacher(teacher: String) = attendanceReportDao.getAttendanceReportForTeacher(teacher)
+
+    fun deleteAttendanceReport(classId: Long) {
+        try {
+            viewModelScope.launch{
+                attendanceReportDao.deleteAttendanceReport(classId)
             }
         }catch (e: Exception) {
 

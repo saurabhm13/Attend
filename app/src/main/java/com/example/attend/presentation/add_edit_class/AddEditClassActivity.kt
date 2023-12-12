@@ -5,12 +5,14 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.attend.R
 import com.example.attend.databinding.ActivityAddEditClassBinding
+import com.example.attend.model.data.AttendanceReport
 import com.example.attend.model.data.ClassEntity
 import com.example.attend.model.local.AppDatabase
 import com.example.attend.presentation.add_user.UserViewModel
@@ -49,10 +51,11 @@ class AddEditClassActivity : AppCompatActivity() {
         val classDao = AppDatabase.getInstance(applicationContext).classDao()
         val enrollmentDao = AppDatabase.getInstance(applicationContext).enrollmentDao()
         val attendanceDao = AppDatabase.getInstance(applicationContext).attendanceDao()
+        val attendanceReportDao = AppDatabase.getInstance(applicationContext).attendanceReportDao()
 
         classViewModel = ViewModelProvider(
             this,
-            ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao)
+            ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao, attendanceReportDao)
         )[ClassViewModel::class.java]
 
         if (intent.getStringExtra(CLASS_NAME) != null) {
@@ -162,6 +165,9 @@ class AddEditClassActivity : AppCompatActivity() {
         binding.date.editText?.setText(date)
         binding.from.editText?.setText(from)
         binding.to.editText?.setText(to)
+
+        binding.className.editText?.inputType = InputType.TYPE_NULL
+        binding.teacher.editText?.inputType = InputType.TYPE_NULL
     }
 
     private fun clearFields() {

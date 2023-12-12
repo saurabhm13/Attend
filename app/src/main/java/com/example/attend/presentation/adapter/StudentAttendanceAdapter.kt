@@ -18,7 +18,7 @@ class StudentAttendanceAdapter(
     private val onPresentClick: ((User) -> Unit),
     private val onAbsentClick: ((User) -> Unit),
     private val onTardyClick: ((User) -> Unit),
-    private val onAttendanceStatusClick: ((User) -> Unit),
+    private val onAttendanceStatusClick: ((user: User, status: String) -> Unit),
 ): RecyclerView.Adapter<StudentAttendanceAdapter.StudentAttendanceViewHolder>() {
 
     private var studentList = ArrayList<User>()
@@ -73,31 +73,38 @@ class StudentAttendanceAdapter(
                     holder.binding.attendanceStatus.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.lightBlue))
                 }
             }
+        }else {
+            hideAttendanceStatus(holder)
         }
 
         holder.binding.present.setOnClickListener {
             onPresentClick.invoke(studentList[position])
-            showAttendanceStatus(holder)
             holder.binding.attendanceStatus.text = "P"
         }
 
         holder.binding.absent.setOnClickListener {
             onAbsentClick.invoke(studentList[position])
-            showAttendanceStatus(holder)
             holder.binding.attendanceStatus.text = "A"
         }
 
         holder.binding.tardy.setOnClickListener {
             onTardyClick.invoke(studentList[position])
-            showAttendanceStatus(holder)
             holder.binding.attendanceStatus.text = "T"
         }
 
         holder.binding.attendanceStatus.setOnClickListener {
-            onAttendanceStatusClick.invoke(studentList[position])
-            hideAttendanceStatus(holder)
+            when (holder.binding.attendanceStatus.text.toString()) {
+                "P" -> {
+                    onAttendanceStatusClick.invoke(studentList[position], PRESENT)
+                }
+                "A" -> {
+                    onAttendanceStatusClick.invoke(studentList[position], ABSENT)
+                }
+                else -> {
+                    onAttendanceStatusClick.invoke(studentList[position], TARDY)
+                }
+            }
         }
-
     }
 
     private fun getAttendanceStatus(userId: Long): String? {

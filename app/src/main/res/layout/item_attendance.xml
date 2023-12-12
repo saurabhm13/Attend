@@ -13,12 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:baselineAligned="false">
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginEnd="1dp"
             android:orientation="vertical">
 
             <TextView
@@ -29,11 +30,12 @@
                 android:gravity="center_horizontal"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/className"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Class"
                 android:layout_marginTop="4dp"
-                android:layout_gravity="center_horizontal"/>
+                android:gravity="center_horizontal"/>
 
         </LinearLayout>
 
@@ -41,6 +43,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
             android:orientation="vertical">
 
             <TextView
@@ -51,11 +55,12 @@
                 android:layout_gravity="center_horizontal"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/teacher"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Class"
                 android:layout_marginTop="4dp"
-                android:layout_gravity="center_horizontal"/>
+                android:gravity="center_horizontal"/>
 
         </LinearLayout>
 
@@ -63,21 +68,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="1dp"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Present"
                 android:textStyle="bold"
-                android:layout_gravity="center_horizontal"/>
+                android:gravity="center_horizontal"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/present"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="Class"
+                android:textColor="@color/darkGreen"
+                android:background="@color/lightGreen"
                 android:layout_marginTop="4dp"
-                android:layout_gravity="center_horizontal"/>
+                android:gravity="center"/>
 
         </LinearLayout>
 
@@ -95,11 +104,14 @@
                 android:layout_gravity="center_horizontal"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/absence"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="Class"
+                android:textColor="@color/darkRed"
+                android:background="@color/lightRed"
                 android:layout_marginTop="4dp"
-                android:layout_gravity="center_horizontal"/>
+                android:gravity="center"/>
 
         </LinearLayout>
 
@@ -112,16 +124,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tired"
+                android:text="Tardy"
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/tardy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="Class"
+                android:textColor="@color/darkBlue"
+                android:background="@color/lightBlue"
                 android:layout_marginTop="4dp"
-                android:layout_gravity="center_horizontal"/>
+                android:gravity="center"/>
 
         </LinearLayout>
 

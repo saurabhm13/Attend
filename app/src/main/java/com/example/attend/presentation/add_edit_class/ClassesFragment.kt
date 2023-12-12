@@ -37,10 +37,11 @@ class ClassesFragment : Fragment() {
         val classDao = AppDatabase.getInstance(requireContext()).classDao()
         val enrollmentDao = AppDatabase.getInstance(requireContext()).enrollmentDao()
         val attendanceDao = AppDatabase.getInstance(requireContext()).attendanceDao()
+        val attendanceReportDao = AppDatabase.getInstance(requireContext()).attendanceReportDao()
 
         classViewModel = ViewModelProvider(
             this,
-            ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao)
+            ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao, attendanceReportDao)
         )[ClassViewModel::class.java]
 
         binding.addEditClass.setOnClickListener {

@@ -31,11 +31,12 @@ class AddStudentsActivity : AppCompatActivity() {
         val classDao = AppDatabase.getInstance(applicationContext).classDao()
         val enrollmentDao = AppDatabase.getInstance(applicationContext).enrollmentDao()
         val attendanceDao = AppDatabase.getInstance(applicationContext).attendanceDao()
+        val attendanceReportDao = AppDatabase.getInstance(applicationContext).attendanceReportDao()
 
         classViewModel =
             ViewModelProvider(
                 this,
-                ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao)
+                ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao, attendanceReportDao)
             )[ClassViewModel::class.java]
 
         getExtrasData()
