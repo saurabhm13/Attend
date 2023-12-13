@@ -18,6 +18,9 @@ interface ClassDao {
     @Query("SELECT * FROM class")
     fun getAllClasses(): LiveData<List<ClassEntity>>
 
+    @Query("SELECT * FROM class WHERE teacher = :teacher")
+    fun getClassByTeacher(teacher: String): LiveData<List<ClassEntity>>
+
     @Delete
     suspend fun deleteClass(classEntity: ClassEntity)
 }

@@ -54,6 +54,8 @@ class ClassViewModel(
 
     fun getAllClass() = classDao.getAllClasses()
 
+    fun getClassByTeacher(teacher: String) = classDao.getClassByTeacher(teacher)
+
     fun deleteClass(classEntity: ClassEntity) {
         try {
             viewModelScope.launch {

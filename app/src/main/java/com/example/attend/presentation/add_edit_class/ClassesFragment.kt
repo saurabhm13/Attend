@@ -14,17 +14,23 @@ import com.example.attend.databinding.FragmentClassesBinding
 import com.example.attend.model.local.AppDatabase
 import com.example.attend.presentation.adapter.ClassAdapter
 import com.example.attend.presentation.adapter.UserAdapter
+import com.example.attend.utils.Constants.Companion.ADMIN
 import com.example.attend.utils.Constants.Companion.CLASS_ID
 import com.example.attend.utils.Constants.Companion.CLASS_NAME
 import com.example.attend.utils.Constants.Companion.DATE
 import com.example.attend.utils.Constants.Companion.FROM
+import com.example.attend.utils.Constants.Companion.NAME
 import com.example.attend.utils.Constants.Companion.TEACHER
 import com.example.attend.utils.Constants.Companion.TO
+import com.example.attend.utils.Constants.Companion.USER_TYPE
 
 class ClassesFragment : Fragment() {
 
     private lateinit var binding: FragmentClassesBinding
     private lateinit var classViewModel: ClassViewModel
+
+    private lateinit var userType: String
+    private lateinit var name: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +38,9 @@ class ClassesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentClassesBinding.inflate(layoutInflater, container, false)
+
+        userType = activity?.intent?.getStringExtra(USER_TYPE).toString()
+        name = activity?.intent?.getStringExtra(NAME).toString()
 
         val userDao = AppDatabase.getInstance(requireContext()).userDao()
         val classDao = AppDatabase.getInstance(requireContext()).classDao()
@@ -83,8 +92,15 @@ class ClassesFragment : Fragment() {
             adapter = classAdapter
         }
 
-        classViewModel.getAllClass().observe(viewLifecycleOwner) {
-            classAdapter.setClassList(it)
+        if (userType == ADMIN) {
+            classViewModel.getAllClass().observe(viewLifecycleOwner) {
+                classAdapter.setClassList(it)
+            }
+        }else if (userType == TEACHER) {
+            classViewModel.getClassByTeacher(name).observe(viewLifecycleOwner) {
+                classAdapter.setClassList(it)
+            }
         }
+
     }
 }
