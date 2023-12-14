@@ -136,6 +136,8 @@ class ClassViewModel(
 
     fun getAttendanceReportForTeacher(teacher: String) = attendanceReportDao.getAttendanceReportForTeacher(teacher)
 
+    fun getAttendanceForStudent(studentId: Long) = attendanceDao.getAttendanceForStudent(studentId)
+
     fun deleteAttendanceReport(classId: Long) {
         try {
             viewModelScope.launch{

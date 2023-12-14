@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.student_home.StudentAttendanceFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Attendance"
+            style="@style/PrimaryText"
+            android:layout_marginEnd="40dp"
+            android:gravity="center"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="1dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Student"
+                    style="@style/SecondaryText"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/studentName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Class"
+                    style="@style/TertiaryText"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="1dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Present"
+                    style="@style/SecondaryText"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/present"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Class"
+                    style="@style/TertiaryText"
+                    android:textColor="@color/darkGreen"
+                    android:background="@color/lightGreen"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Absent"
+                    style="@style/SecondaryText"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/absence"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Class"
+                    style="@style/TertiaryText"
+                    android:textColor="@color/darkRed"
+                    android:background="@color/lightRed"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tardy"
+                    style="@style/SecondaryText"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/tardy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Class"
+                    style="@style/TertiaryText"
+                    android:textColor="@color/darkBlue"
+                    android:background="@color/lightBlue"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

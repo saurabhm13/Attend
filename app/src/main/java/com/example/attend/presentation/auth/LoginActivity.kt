@@ -65,6 +65,7 @@ class LoginActivity : AppCompatActivity() {
                                     val intoStudent = Intent(this, HomeStudentActivity::class.java)
                                     intoStudent.putExtra(USER_TYPE, STUDENT)
                                     intoStudent.putExtra(USER_ID, it.user_id)
+                                    intoStudent.putExtra(NAME, it.username)
                                     startActivity(intoStudent)
                                     finish()
                                 }

@@ -11,8 +11,8 @@ interface AttendanceDao {
     @Insert
     suspend fun insertAttendance(attendance: Attendance)
 
-    @Query("SELECT * FROM attendance WHERE class_id = :classId AND student_id = :studentId")
-    fun getAttendanceForStudentInClass(classId: Long, studentId: Long): LiveData<List<Attendance>>
+    @Query("SELECT * FROM attendance WHERE student_id = :studentId")
+    fun getAttendanceForStudent(studentId: Long): LiveData<List<Attendance>>
 
     @Query("SELECT * FROM attendance WHERE class_id = :classId")
     fun getClassAttendance(classId: Long): LiveData<List<Attendance>>
