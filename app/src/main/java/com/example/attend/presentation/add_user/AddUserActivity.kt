@@ -31,10 +31,11 @@ class AddUserActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val userDao = AppDatabase.getInstance(this).userDao()
+        val absenceDao = AppDatabase.getInstance(this).excuseAbsenceDao()
 
         userViewModel = ViewModelProvider(
             this,
-            UserViewModelFactory(userDao)
+            UserViewModelFactory(userDao, absenceDao)
         )[UserViewModel::class.java]
 
         if (intent.getStringExtra(USERNAME) != null) {

@@ -32,10 +32,11 @@ class TeacherManagementFragment : Fragment() {
         binding = FragmentTeacherManagementBinding.inflate(layoutInflater, container, false)
 
         val userDao = AppDatabase.getInstance(requireContext()).userDao()
+        val absenceDao = AppDatabase.getInstance(requireContext()).excuseAbsenceDao()
 
         userViewModel = ViewModelProvider(
             this,
-            UserViewModelFactory(userDao)
+            UserViewModelFactory(userDao, absenceDao)
         )[UserViewModel::class.java]
 
         prepareRecyclerView()
