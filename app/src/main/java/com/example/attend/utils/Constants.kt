@@ -7,6 +7,8 @@ class Constants {
         const val TEACHER = "Teacher"
         const val ADMIN = "Admin"
         const val NAME = "Name"
+        const val GENDER = "Gender"
+        const val DOB = "dob"
 
         const val FROM = "From"
         const val TO = "To"

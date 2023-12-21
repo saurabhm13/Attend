@@ -15,6 +15,9 @@ import com.example.attend.presentation.adapter.UserAdapter
 import com.example.attend.presentation.add_user.AddUserActivity
 import com.example.attend.presentation.add_user.UserViewModel
 import com.example.attend.presentation.add_user.UserViewModelFactory
+import com.example.attend.utils.Constants.Companion.DOB
+import com.example.attend.utils.Constants.Companion.GENDER
+import com.example.attend.utils.Constants.Companion.NAME
 import com.example.attend.utils.Constants.Companion.PASSWORD
 import com.example.attend.utils.Constants.Companion.STUDENT
 import com.example.attend.utils.Constants.Companion.USERNAME
@@ -52,6 +55,9 @@ class StudentManagementFragment : Fragment() {
                 val intoAddEditUser = Intent(activity, AddUserActivity::class.java)
                 intoAddEditUser.putExtra(USER_ID, it.user_id)
                 intoAddEditUser.putExtra(USERNAME, it.username)
+                intoAddEditUser.putExtra(NAME, it.name)
+                intoAddEditUser.putExtra(GENDER, it.gender)
+                intoAddEditUser.putExtra(DOB, it.dob)
                 intoAddEditUser.putExtra(PASSWORD, it.password)
                 intoAddEditUser.putExtra(USER_TYPE, it.user_type)
                 startActivity(intoAddEditUser)
