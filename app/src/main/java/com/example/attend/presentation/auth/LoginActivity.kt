@@ -56,23 +56,25 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intoAdmin)
                         finish()
                         Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                    }else {
+                        Toast.makeText(this, "Invalid User", Toast.LENGTH_SHORT).show()
                     }
                 }else {
                     authViewModel.getUserByUserName(username).observe(this) {
-                        if (username == it.username && password == it.password && userType == it.user_type) {
+                        if (it != null && username == it.username && password == it.password && userType == it.user_type) {
                             when (userType) {
                                 STUDENT -> {
                                     val intoStudent = Intent(this, HomeStudentActivity::class.java)
                                     intoStudent.putExtra(USER_TYPE, STUDENT)
                                     intoStudent.putExtra(USER_ID, it.user_id)
-                                    intoStudent.putExtra(NAME, it.username)
+                                    intoStudent.putExtra(NAME, it.name)
                                     startActivity(intoStudent)
                                     finish()
                                 }
                                 TEACHER -> {
                                     val intoTeacher = Intent(this, HomeTeacherActivity::class.java)
                                     intoTeacher.putExtra(USER_TYPE, TEACHER)
-                                    intoTeacher.putExtra(NAME, it.username)
+                                    intoTeacher.putExtra(NAME, it.name)
                                     startActivity(intoTeacher)
                                     finish()
                                 }

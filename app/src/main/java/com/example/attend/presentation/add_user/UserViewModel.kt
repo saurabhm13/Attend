@@ -36,12 +36,6 @@ class UserViewModel(
         }
     }
 
-    // Get a user by ID from the database
-    fun getUserById(userId: Long) = userDao.getUserById(userId)
-
-    // Get a user by username from the database
-    fun getUserByUsername(username: String) = userDao.getUserByUsername(username)
-
     fun getUserByUserType(userType: String) = userDao.getUserByType(userType)
 
     fun deleteUser(user: User) {

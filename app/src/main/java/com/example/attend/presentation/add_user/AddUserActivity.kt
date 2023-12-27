@@ -1,6 +1,5 @@
 package com.example.attend.presentation.add_user
 
-//noinspection SuspiciousImport
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -53,6 +52,10 @@ class AddUserActivity : AppCompatActivity() {
             this,
             UserViewModelFactory(userDao, absenceDao)
         )[UserViewModel::class.java]
+
+        userViewModel.errorCallBack = {
+            Toast.makeText(this, "Error: $it", Toast.LENGTH_SHORT).show()
+        }
 
         val genderList = arrayOf("Male", "Female")
 

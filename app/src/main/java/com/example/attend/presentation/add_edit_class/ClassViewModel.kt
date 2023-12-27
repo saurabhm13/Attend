@@ -33,6 +33,8 @@ class ClassViewModel(
     private val _studentsWithEnrollment = MutableLiveData<List<StudentWithEnrollmentStatus>>()
     val studentsWithEnrollment: LiveData<List<StudentWithEnrollmentStatus>> get() = _studentsWithEnrollment
 
+    var errorCallback: ((String) -> Unit)? = null
+
     fun addEditClass(classEntity: ClassEntity){
         try {
             viewModelScope.launch {
@@ -40,8 +42,6 @@ class ClassViewModel(
                 if (classEntity.class_id.toInt() == 0) {
                     val attendanceReport = AttendanceReport(0, classId, classEntity.class_name, classEntity.teacher, 0, 0, 0)
                     createAttendanceReport(attendanceReport)
-                }else {
-
                 }
             }
             _classEditStatus.value = true
@@ -49,8 +49,6 @@ class ClassViewModel(
             _classEditStatus.value = false
         }
     }
-
-    fun getClassById(classId: Long) = classDao.getClassById(classId)
 
     fun getAllClass() = classDao.getAllClasses()
 
@@ -80,7 +78,6 @@ class ClassViewModel(
         }
     }
 
-    // Get all students enrolled in a class
     fun getEnrolledStudentsInClass(classId: Long): LiveData<List<User>> {
         return userDao.getStudentsInClass(classId)
     }
@@ -96,7 +93,7 @@ class ClassViewModel(
                 attendanceDao.insertAttendance(attendance)
             }
         }catch (e: Exception) {
-
+            errorCallback?.invoke(e.message.toString())
         }
     }
 
@@ -106,7 +103,7 @@ class ClassViewModel(
                 attendanceDao.removeAttendanceOfStudentFromClass(studentId, classId)
             }
         }catch (e: Exception) {
-
+            errorCallback?.invoke(e.message.toString())
         }
     }
 
@@ -116,7 +113,7 @@ class ClassViewModel(
                 attendanceReportDao.insertAttendanceReport(attendanceReport)
             }
         }catch (e: Exception) {
-
+            errorCallback?.invoke(e.message.toString())
         }
     }
 
@@ -126,7 +123,7 @@ class ClassViewModel(
                 attendanceReportDao.upsertAttendanceReport(attendanceReport)
             }
         }catch (e: Exception) {
-
+            errorCallback?.invoke(e.message.toString())
         }
     }
 
@@ -144,7 +141,7 @@ class ClassViewModel(
                 attendanceReportDao.deleteAttendanceReport(classId)
             }
         }catch (e: Exception) {
-
+            errorCallback?.invoke(e.message.toString())
         }
     }
 
@@ -153,22 +150,5 @@ class ClassViewModel(
         val formatter = SimpleDateFormat("dd-MM-yyyy")
         return formatter.format(time)
     }
-
-//    fun getAllStudentsAndCheckEnrollment(classId: Long, userType: String) {
-//        viewModelScope.launch {
-//            val allStudents = userDao.getUserByType(userType)
-//            val enrolledStudents = enrollmentDao.getEnrolledStudentsInClass(classId)
-//
-//            val studentsWithEnrollmentStatus = allStudents.map { student ->
-//                StudentWithEnrollmentStatus(
-//                    student = student,
-//                    isEnrolled = enrolledStudents.any { it.user_id == student.user_id }
-//                )
-//            }
-//
-//            _studentsWithEnrollmentStatus.value = studentsWithEnrollmentStatus
-//        }
-//    }
-
 
 }

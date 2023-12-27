@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.attend.R
 import com.example.attend.databinding.ItemStudentAttendanceBinding
@@ -15,9 +16,7 @@ import com.example.attend.utils.Constants.Companion.PRESENT
 import com.example.attend.utils.Constants.Companion.TARDY
 
 class StudentAttendanceAdapter(
-    private val onPresentClick: ((User) -> Unit),
-    private val onAbsentClick: ((User) -> Unit),
-    private val onTardyClick: ((User) -> Unit),
+    private val onItemClick: ((User) -> Unit),
     private val onAttendanceStatusClick: ((user: User, status: String) -> Unit),
 ): RecyclerView.Adapter<StudentAttendanceAdapter.StudentAttendanceViewHolder>() {
 
@@ -54,6 +53,9 @@ class StudentAttendanceAdapter(
 
         val attendanceStatus = getAttendanceStatus(studentList[position].user_id)
 
+        holder.binding.gender.text = studentList[position].gender
+        holder.binding.dob.text = studentList[position].dob
+
         if (attendanceStatus != null) {
             showAttendanceStatus(holder)
             when (attendanceStatus) {
@@ -77,34 +79,26 @@ class StudentAttendanceAdapter(
             hideAttendanceStatus(holder)
         }
 
-        holder.binding.present.setOnClickListener {
-            onPresentClick.invoke(studentList[position])
-            holder.binding.attendanceStatus.text = "P"
-        }
-
-        holder.binding.absent.setOnClickListener {
-            onAbsentClick.invoke(studentList[position])
-            holder.binding.attendanceStatus.text = "A"
-        }
-
-        holder.binding.tardy.setOnClickListener {
-            onTardyClick.invoke(studentList[position])
-            holder.binding.attendanceStatus.text = "T"
-        }
-
-        holder.binding.attendanceStatus.setOnClickListener {
-            when (holder.binding.attendanceStatus.text.toString()) {
-                "P" -> {
-                    onAttendanceStatusClick.invoke(studentList[position], PRESENT)
-                }
-                "A" -> {
-                    onAttendanceStatusClick.invoke(studentList[position], ABSENT)
-                }
-                else -> {
-                    onAttendanceStatusClick.invoke(studentList[position], TARDY)
+        if (!holder.binding.attendanceStatus.isVisible) {
+            holder.binding.root.setOnClickListener {
+                onItemClick.invoke(studentList[position])
+            }
+        }else {
+            holder.binding.root.setOnClickListener {
+                when (holder.binding.attendanceStatus.text.toString()) {
+                    "P" -> {
+                        onAttendanceStatusClick.invoke(studentList[position], PRESENT)
+                    }
+                    "A" -> {
+                        onAttendanceStatusClick.invoke(studentList[position], ABSENT)
+                    }
+                    else -> {
+                        onAttendanceStatusClick.invoke(studentList[position], TARDY)
+                    }
                 }
             }
         }
+
     }
 
     private fun getAttendanceStatus(userId: Long): String? {
@@ -114,16 +108,10 @@ class StudentAttendanceAdapter(
 
     private fun showAttendanceStatus(holder: StudentAttendanceViewHolder) {
         holder.binding.attendanceStatus.visibility = View.VISIBLE
-        holder.binding.present.visibility = View.GONE
-        holder.binding.absent.visibility = View.GONE
-        holder.binding.tardy.visibility = View.GONE
     }
 
     private fun hideAttendanceStatus(holder: StudentAttendanceViewHolder) {
         holder.binding.attendanceStatus.visibility = View.GONE
-        holder.binding.present.visibility = View.VISIBLE
-        holder.binding.absent.visibility = View.VISIBLE
-        holder.binding.tardy.visibility = View.VISIBLE
     }
 
 }

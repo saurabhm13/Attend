@@ -41,6 +41,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/SecondaryText"
             android:hint="Class Name" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -53,14 +54,23 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
+        app:endIconMode="dropdown_menu"
         app:layout_constraintTop_toBottomOf="@id/className"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/teacherSp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Teacher" />
+            android:layout_height="match_parent"
+            android:hint="Teacher"
+            android:clickable = "true"
+            android:focusable = "true"
+            android:focusableInTouchMode = "false"
+            style="@style/SecondaryText"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,6 +96,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/SecondaryText"
                 android:hint="Date" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -136,6 +147,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/SecondaryText"
                     android:hint="From" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -169,6 +181,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/SecondaryText"
                     android:hint="To" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -212,16 +225,5 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
-
-<!--    <DatePicker-->
-<!--        android:id="@+id/datePick"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:datePickerMode="calendar"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
-
 
 </LinearLayout>

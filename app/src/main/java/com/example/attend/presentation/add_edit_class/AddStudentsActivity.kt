@@ -2,6 +2,7 @@ package com.example.attend.presentation.add_edit_class
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +40,10 @@ class AddStudentsActivity : AppCompatActivity() {
                 ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao, attendanceReportDao)
             )[ClassViewModel::class.java]
 
+        classViewModel.errorCallback = {
+            Toast.makeText(this, "Error: $it", Toast.LENGTH_SHORT).show()
+        }
+
         getExtrasData()
 
         binding.back.setOnClickListener {
@@ -72,7 +77,6 @@ class AddStudentsActivity : AppCompatActivity() {
 
         })
 
-        // Example of getting enrolled students in a class
         classViewModel.getEnrolledStudentsInClass(classId).observe(this, Observer {
             enrolledStudents = it
             studentAdapter.setEnrolledStudentList(it)

@@ -4,21 +4,22 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.attend.R
 import com.example.attend.databinding.ActivityClassDetailsBinding
 import com.example.attend.model.data.AttendanceReport
 import com.example.attend.model.local.AppDatabase
 import com.example.attend.presentation.adapter.StudentAttendanceAdapter
-import com.example.attend.presentation.adapter.UserAdapter
+import com.example.attend.utils.AttendanceDialog
 import com.example.attend.utils.Constants
 import com.example.attend.utils.Constants.Companion.ABSENT
 import com.example.attend.utils.Constants.Companion.CLASS_ID
 import com.example.attend.utils.Constants.Companion.CLASS_NAME
 import com.example.attend.utils.Constants.Companion.PRESENT
 import com.example.attend.utils.Constants.Companion.TARDY
-import kotlin.math.abs
+import com.example.attend.utils.Constants.Companion.TEACHER
+import com.example.attend.utils.Constants.Companion.USER_TYPE
 
 class ClassDetailsActivity : AppCompatActivity() {
 
@@ -37,6 +38,8 @@ class ClassDetailsActivity : AppCompatActivity() {
     private var absence: Int = 0
     private var tardy: Int = 0
 
+    private lateinit var userType: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClassDetailsBinding.inflate(layoutInflater)
@@ -54,6 +57,12 @@ class ClassDetailsActivity : AppCompatActivity() {
                 this,
                 ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao, attendanceReportDao)
             )[ClassViewModel::class.java]
+
+        userType = intent.getStringExtra(USER_TYPE).toString()
+
+        classViewModel.errorCallback = {
+            Toast.makeText(this, "Error: $it", Toast.LENGTH_SHORT).show()
+        }
 
         setClassDetails()
         prepareRecyclerView()
@@ -81,7 +90,7 @@ class ClassDetailsActivity : AppCompatActivity() {
     private fun setClassDetails() {
         classId = intent.getLongExtra(CLASS_ID, 0)
         className = intent.getStringExtra(CLASS_NAME).toString()
-        teacher = intent.getStringExtra(Constants.TEACHER).toString()
+        teacher = intent.getStringExtra(TEACHER).toString()
         date = intent.getStringExtra(Constants.DATE).toString()
         from = intent.getStringExtra(Constants.FROM).toString()
         to = intent.getStringExtra(Constants.TO).toString()
@@ -93,46 +102,64 @@ class ClassDetailsActivity : AppCompatActivity() {
     }
 
     private fun prepareRecyclerView() {
-        val studentAdapter = StudentAttendanceAdapter(
-            onPresentClick = {
-                present += 1
-                val attendanceReport = AttendanceReport(attendanceReportId, classId, className, teacher, present, absence, tardy)
-                classViewModel.updateAttendanceReport(attendanceReport)
-                classViewModel.addStudentAttendance(it.user_id, classId, PRESENT)
-            },
-            onAbsentClick = {
-                absence += 1
-                val attendanceReport = AttendanceReport(attendanceReportId, classId, className, teacher, present, absence, tardy)
-                classViewModel.updateAttendanceReport(attendanceReport)
-                classViewModel.addStudentAttendance(it.user_id, classId, ABSENT)
-            },
-            onTardyClick = {
-                tardy += 1
-                val attendanceReport = AttendanceReport(attendanceReportId, classId, className, teacher, present, absence, tardy)
-                classViewModel.updateAttendanceReport(attendanceReport)
-                classViewModel.addStudentAttendance(it.user_id, classId, TARDY)
-            },
-            onAttendanceStatusClick = {user, status ->
-                when(status) {
-                    PRESENT -> {
-                        present -= 1
-                        val attendanceReport = AttendanceReport(attendanceReportId, classId, className, teacher, present, absence, tardy)
-                        classViewModel.updateAttendanceReport(attendanceReport)
+
+        val studentAdapter: StudentAttendanceAdapter
+
+        if (userType == TEACHER) {
+            studentAdapter = StudentAttendanceAdapter(
+                onItemClick = {
+                    val attendanceDialog = AttendanceDialog(it.name)
+                    attendanceDialog.show(supportFragmentManager, "AttendanceDialog")
+
+                    attendanceDialog.clickCallback = {attendance ->
+                        when (attendance) {
+                            PRESENT -> {
+                                present++
+                                updateAttendanceReport()
+                                classViewModel.addStudentAttendance(it.user_id, classId, PRESENT)
+                            }
+                            ABSENT -> {
+                                absence++
+                                updateAttendanceReport()
+                                classViewModel.addStudentAttendance(it.user_id, classId, ABSENT)
+                            }
+                            TARDY -> {
+                                tardy++
+                                updateAttendanceReport()
+                                classViewModel.addStudentAttendance(it.user_id, classId, TARDY)
+                            }
+                        }
                     }
-                    ABSENT -> {
-                        absence -= 1
-                        val attendanceReport = AttendanceReport(attendanceReportId, classId, className, teacher, present, absence, tardy)
-                        classViewModel.updateAttendanceReport(attendanceReport)
+                },
+                onAttendanceStatusClick = {user, status ->
+                    when(status) {
+                        PRESENT -> {
+                            present -= 1
+                            updateAttendanceReport()
+                        }
+                        ABSENT -> {
+                            absence -= 1
+                            updateAttendanceReport()
+                        }
+                        else -> {
+                            tardy -= 1
+                            updateAttendanceReport()
+                        }
                     }
-                    else -> {
-                        tardy -= 1
-                        val attendanceReport = AttendanceReport(attendanceReportId, classId, className, teacher, present, absence, tardy)
-                        classViewModel.updateAttendanceReport(attendanceReport)
-                    }
+                    classViewModel.removeStudentAttendance(user.user_id, classId)
                 }
-                classViewModel.removeStudentAttendance(user.user_id, classId)
-            }
-        )
+            )
+        }else {
+            studentAdapter = StudentAttendanceAdapter(
+                onItemClick = {
+
+                },
+                onAttendanceStatusClick = {user, status ->
+
+                }
+            )
+        }
+
 
         binding.rvStudents.apply {
             layoutManager = LinearLayoutManager(this@ClassDetailsActivity, LinearLayoutManager.VERTICAL, false)
@@ -146,5 +173,10 @@ class ClassDetailsActivity : AppCompatActivity() {
         classViewModel.getClassAttendance(classId).observe(this) {
             studentAdapter.setAttendanceList(it)
         }
+    }
+
+    private fun updateAttendanceReport() {
+        val attendanceReport = AttendanceReport(attendanceReportId, classId, className, teacher, present, absence, tardy)
+        classViewModel.updateAttendanceReport(attendanceReport)
     }
 }

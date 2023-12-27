@@ -93,11 +93,6 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp">
 
-<!--        <Spinner-->
-<!--            android:id="@+id/genderSp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"/>-->
-
         <AutoCompleteTextView
             android:id="@+id/genderSp"
             android:layout_width="match_parent"

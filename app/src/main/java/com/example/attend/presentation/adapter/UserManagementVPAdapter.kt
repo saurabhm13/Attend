@@ -14,8 +14,6 @@ class UserManagementVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragmen
         return when (position) {
             0 -> StudentManagementFragment()
             1 -> TeacherManagementFragment()
-//            2 -> DeliveredOrderFragment()
-            // Add more cases for additional tabs/fragments
             else -> StudentManagementFragment()
         }
     }

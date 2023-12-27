@@ -53,6 +53,10 @@ class ClassesFragment : Fragment() {
             ClassViewModelFactory(classDao, userDao, enrollmentDao, attendanceDao, attendanceReportDao)
         )[ClassViewModel::class.java]
 
+        classViewModel.errorCallback = {
+            Toast.makeText(activity, "Error: $it", Toast.LENGTH_SHORT).show()
+        }
+
         binding.addEditClass.setOnClickListener {
             val intoAddEditClass = Intent(activity, AddEditClassActivity::class.java)
             startActivity(intoAddEditClass)
@@ -73,6 +77,7 @@ class ClassesFragment : Fragment() {
                 intoClassDetails.putExtra(DATE, it.date)
                 intoClassDetails.putExtra(FROM, it.from)
                 intoClassDetails.putExtra(TO, it.to)
+                intoClassDetails.putExtra(USER_TYPE, userType)
                 startActivity(intoClassDetails)
             },
             onEditClick = {
