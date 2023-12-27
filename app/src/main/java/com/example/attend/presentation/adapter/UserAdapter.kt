@@ -32,6 +32,8 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.binding.user.text = userList[position].name
+        holder.binding.gender.text = userList[position].gender
+        holder.binding.dob.text = userList[position].dob
 
         holder.binding.root.setOnClickListener {
             onItemClick.invoke(userList[position])

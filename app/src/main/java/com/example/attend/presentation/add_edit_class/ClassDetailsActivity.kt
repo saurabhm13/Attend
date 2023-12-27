@@ -104,11 +104,12 @@ class ClassDetailsActivity : AppCompatActivity() {
     private fun prepareRecyclerView() {
 
         val studentAdapter: StudentAttendanceAdapter
+        var attendanceDialog: AttendanceDialog
 
         if (userType == TEACHER) {
             studentAdapter = StudentAttendanceAdapter(
                 onItemClick = {
-                    val attendanceDialog = AttendanceDialog(it.name)
+                    attendanceDialog = AttendanceDialog(it.name)
                     attendanceDialog.show(supportFragmentManager, "AttendanceDialog")
 
                     attendanceDialog.clickCallback = {attendance ->
@@ -132,21 +133,45 @@ class ClassDetailsActivity : AppCompatActivity() {
                     }
                 },
                 onAttendanceStatusClick = {user, status ->
-                    when(status) {
-                        PRESENT -> {
-                            present -= 1
-                            updateAttendanceReport()
+                    attendanceDialog = AttendanceDialog(user.name)
+                    attendanceDialog.show(supportFragmentManager, "AttendanceDialog")
+                    attendanceDialog.clickCallback = {attendance ->
+
+                        when(status) {
+                            PRESENT -> {
+                                present -= 1
+                                updateAttendanceReport()
+                            }
+                            ABSENT -> {
+                                absence -= 1
+                                updateAttendanceReport()
+                            }
+                            else -> {
+                                tardy -= 1
+                                updateAttendanceReport()
+                            }
                         }
-                        ABSENT -> {
-                            absence -= 1
-                            updateAttendanceReport()
-                        }
-                        else -> {
-                            tardy -= 1
-                            updateAttendanceReport()
+                        classViewModel.removeStudentAttendance(user.user_id, classId)
+
+                        when (attendance) {
+                            PRESENT -> {
+                                present++
+                                updateAttendanceReport()
+                                classViewModel.addStudentAttendance(user.user_id, classId, PRESENT)
+                            }
+                            ABSENT -> {
+                                absence++
+                                updateAttendanceReport()
+                                classViewModel.addStudentAttendance(user.user_id, classId, ABSENT)
+                            }
+                            TARDY -> {
+                                tardy++
+                                updateAttendanceReport()
+                                classViewModel.addStudentAttendance(user.user_id, classId, TARDY)
+                            }
                         }
                     }
-                    classViewModel.removeStudentAttendance(user.user_id, classId)
+
                 }
             )
         }else {
